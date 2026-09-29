@@ -1,3 +1,4 @@
+import LikeButton from "@/app/components/LikeButton";
 import Link from "next/link";
 
 const posts = [
@@ -28,6 +29,8 @@ export default async function PostDetailPage({ params }) {
       <h1 className="text-4xl font-bold">{post.title}</h1>
 
       <p className="mt-4">{post.content}</p>
+
+      <LikeButton />
 
       <Link href="/posts" className="mt-8 inline-block text-blue-500">
         ← 목록으로
