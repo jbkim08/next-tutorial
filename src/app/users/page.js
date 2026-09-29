@@ -2,6 +2,10 @@ import Link from "next/link";
 
 export default async function UsersPage() {
   const response = await fetch("https://jsonplaceholder.typicode.com/users");
+
+  if (!response.ok) {
+    throw new Error("유저 데이터를 불러오지 못했습니다.");
+  }
   const users = await response.json();
 
   return (

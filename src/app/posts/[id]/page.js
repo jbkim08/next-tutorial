@@ -7,6 +7,10 @@ export default async function PostDetailPage({ params }) {
     `https://jsonplaceholder.typicode.com/posts/${id}`,
   );
 
+  if (!response.ok) {
+    throw new Error("게시글을 불러오지 못했습니다.");
+  }
+
   const post = await response.json();
 
   return (

@@ -1,16 +1,11 @@
 import Link from "next/link";
 
-// 입력한 ms 동안 기다리는 함수
-function wait(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 export default async function PostsPage() {
-  //await wait(3000); //3초 지연됨
-
   const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+
+  if (!response.ok) {
+    throw new Error("게시글 데이터를 불러오지 못했습니다.");
+  }
 
   const posts = await response.json();
 
