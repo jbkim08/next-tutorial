@@ -1,39 +1,24 @@
-import LikeButton from "@/app/components/LikeButton";
 import Link from "next/link";
-
-const posts = [
-  {
-    id: 1,
-    title: "Next.js 시작하기",
-    content: "Next.js 공부를 시작합니다.",
-  },
-  {
-    id: 2,
-    title: "Routing 배우기",
-    content: "파일 기반 Routing을 공부합니다.",
-  },
-  {
-    id: 3,
-    title: "Dynamic Route",
-    content: "동적 라우팅을 공부합니다.",
-  },
-];
 
 export default async function PostDetailPage({ params }) {
   const { id } = await params;
 
-  const post = posts.find((post) => post.id === Number(id));
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${id}`,
+  );
+
+  const post = await response.json();
 
   return (
-    <main className="p-10">
-      <h1 className="text-4xl font-bold">{post.title}</h1>
+    <main className="mx-auto max-w-4xl p-10">
+      <p className="text-sm text-gray-400">No. {post.id}</p>
 
-      <p className="mt-4">{post.content}</p>
+      <h1 className="mt-2 text-3xl font-bold">{post.title}</h1>
 
-      <LikeButton />
+      <p className="mt-8 leading-7 text-gray-600">{post.body}</p>
 
-      <Link href="/posts" className="mt-8 inline-block text-blue-500">
-        ← 목록으로
+      <Link href="/posts" className="mt-10 inline-block text-blue-500">
+        ← 게시글 목록
       </Link>
     </main>
   );
