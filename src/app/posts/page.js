@@ -1,23 +1,37 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export default async function PostsPage() {
-  const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+export default function PostsPage() {
+  const [posts, setPosts] = useState([]);
 
-  if (!response.ok) {
-    throw new Error("게시글 데이터를 불러오지 못했습니다.");
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  async function fetchPosts() {
+    const response = await fetch("/api/posts");
+    const data = await response.json();
+    setPosts(data);
   }
-
-  const posts = await response.json();
 
   return (
     <main className="mx-auto max-w-4xl p-10">
-      <h1 className="text-4xl font-bold">게시글</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold me-6">게시글 목록</h1>
+        <Link
+          href="/posts/new"
+          className="rounded bg-black px-4 py-2 text-white"
+        >
+          글쓰기
+        </Link>
+      </div>
 
       <div className="mt-8">
-        {posts.slice(0, 10).map((post) => (
-          <div key={post.id} className="border-b py-4">
+        {posts.map((post) => (
+          <div key={post.id} className="border-b py-5">
             <p className="text-sm text-gray-400">No. {post.id}</p>
-
             <Link
               href={`/posts/${post.id}`}
               className="font-bold hover:text-blue-500"
