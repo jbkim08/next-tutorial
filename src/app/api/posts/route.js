@@ -1,19 +1,6 @@
 // http://localhost:3000/api/posts
 
-const posts = [
-  {
-    id: 1,
-    title: "Next.js 시작하기",
-  },
-  {
-    id: 2,
-    title: "App Router 공부하기",
-  },
-  {
-    id: 3,
-    title: "Route Handler 배우기",
-  },
-];
+import { posts } from "@/app/lib/posts";
 
 export async function GET() {
   return Response.json(posts);
@@ -24,22 +11,19 @@ export async function POST(request) {
   const body = await request.json();
 
   if (!body.title) {
-    return Response.json(
-      {
-        message: "title은 필수입니다.",
-      },
-      {
-        status: 400,
-      },
-    );
+    return Response.json({ message: "title은 필수입니다." }, { status: 400 });
   }
 
+  const nextId =
+    posts.length === 0 ? 1 : Math.max(...posts.map((post) => post.id)) + 1;
+
   const newPost = {
-    id: posts.length + 1,
+    id: nextId,
     title: body.title,
+    content: body.content || "",
   };
 
-  posts.push(newPost); //배열에 새 post 추가
+  posts.push(newPost);
 
   return Response.json(newPost, { status: 201 });
 }
