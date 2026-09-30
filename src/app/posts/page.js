@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchPosts();
@@ -14,6 +15,11 @@ export default function PostsPage() {
     const response = await fetch("/api/posts");
     const data = await response.json();
     setPosts(data);
+    setLoading(false);
+  }
+
+  if (loading) {
+    return <main className="p-10">게시글을 불러오는 중...</main>;
   }
 
   return (
