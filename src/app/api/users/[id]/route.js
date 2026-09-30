@@ -22,12 +22,8 @@ export async function PUT(request, { params }) {
 
   if (index === -1) {
     return Response.json(
-      {
-        message: "사용자를 찾을 수 없습니다.",
-      },
-      {
-        status: 404,
-      },
+      { message: "사용자를 찾을 수 없습니다." },
+      { status: 404 },
     );
   }
 
