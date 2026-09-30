@@ -44,3 +44,22 @@ export async function PUT(request, { params }) {
 
   return Response.json(posts[index]);
 }
+
+export async function DELETE(request, { params }) {
+  const { id } = await params;
+
+  const index = posts.findIndex((post) => post.id === Number(id));
+
+  if (index === -1) {
+    return Response.json(
+      { message: "게시글을 찾을 수 없습니다." },
+      { status: 404 },
+    );
+  }
+
+  posts.splice(index, 1);
+
+  return Response.json({
+    message: "게시글이 삭제되었습니다.",
+  });
+}
